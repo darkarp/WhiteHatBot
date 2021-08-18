@@ -113,9 +113,12 @@ impl EventHandler for Handler {
                 let data = ctx.data.read().await;
                 if let Some(config) = data.get::<Config>() {
                     match new.add_roles(&ctx, &config.default_roles).await {
-                        Ok(_) => {
+                        Ok(added) => {
                             let nickname = new.display_name();
-                            println!("User: {} has accepted screening. Added role(s).", nickname);
+                            println!(
+                                "User: {} has accepted screening. Added role(s): {:?}",
+                                nickname, added
+                            );
                         }
                         Err(err) => println!("Error occurred adding role: {}", err),
                     }
